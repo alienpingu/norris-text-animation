@@ -1,0 +1,68 @@
+/* CSS reset */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  min-height: 100vh;
+  gap: 0.5rem;
+}
+/* Norris CSS */
+:root {
+  --c-primary: #dde1d2;
+  --c-secondary: #b2c73a;
+  --font-size: 3rem;
+  --animation-time: 25ms;
+}
+a.norris {
+  text-decoration: none;
+  text-transform: uppercase;
+  line-height: var(--font-size);
+  font-size: var(--font-size);
+  font-weight: 800;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  overflow: hidden;
+  letter-spacing: 0.05rem;
+  span {
+    position: relative;
+    color: transparent;
+    &::before,
+    &::after {
+      transition: all ease-out calc(var(--animation-time) * 10);
+      color: var(--c-primary);
+      position: absolute;
+      left: 0;
+      content: attr(data-char);
+    }
+    &::before {
+      transform: translateY(0);
+      transition-delay: calc(sibling-index() * 0.4 * var(--animation-time));
+    }
+    &::after {
+      transform: translateY(var(--font-size));
+      transition-delay: calc(sibling-index() * 0.4 * var(--animation-time));
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: var(--c-secondary);
+    span::before,
+    span::after {
+      color: var(--c-secondary);
+    }
+    span::before {
+      transform: translateY(calc(-1 * var(--font-size)));
+    }
+    span::after {
+      transform: translateY(0);
+    }
+  }
+}
