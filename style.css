@@ -1,3 +1,13 @@
+/*
+The animation is Norris CSS, taking inspiration from the link in the footer of https://landonorris.com/ because i saw a video of Syntax, they not perform well, i found this solution that for me it is 100x better
+Let me know what you think about :D
+
+Anyway... the animation consists in split the <a> into span for each chars then hide the char and use the content of ::before and ::after to do the magic
+So the js file prepare a span with the char as actribute and the index as propriety, we can populate the content with data-char and use the index for a incremental transition delay:
+ transition-delay: calc(var(--index) * var(--animation-time));
+*/
+
+
 @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&display=swap');
 /* CSS reset */
 html,
@@ -13,7 +23,6 @@ body {
   align-items: center;
   background-color: black;
   min-height: 100vh;
-  gap: 0.5rem;
   font-family: "Stack Sans Headline", sans-serif;
   font-optical-sizing: auto;
   font-weight: 700;
@@ -33,6 +42,7 @@ a.norris {
   line-height: calc(var(--font-size));
   font-size: var(--font-size);
   overflow: hidden;
+  line-height: var(font-size);
 }
 a.norris span {
   position: relative;
@@ -45,14 +55,13 @@ a.norris span::after {
   content: attr(data-char);
   color: var(--c-primary);
   transition: all ease-in-out calc(var(--animation-time) * 10);
+  transition-delay: calc(var(--index) * var(--animation-time));
 }
 a.norris span::before {
   transform: translateY(0);
-  transition-delay: calc(var(--index) * var(--animation-time));
 }
 a.norris span::after {
   transform: translateY(var(--font-size));
-  transition-delay: calc(var(--index) * var(--animation-time));
 }
 a.norris:hover {
   cursor: pointer;
@@ -63,8 +72,23 @@ a.norris:hover span::after {
   color: var(--c-secondary);
 }
 a.norris:hover span::before {
+  opacity: 1;
+}
+a.norris:hover span::after {
+  opacity: 0;
+}
+
+a.norris:hover span::before {
   transform: translateY(calc(-1 * var(--font-size)));
+  opacity: 0;
 }
 a.norris:hover span::after {
   transform: translateY(0);
+  opacity: 1;
+}
+
+.fixed {
+  position: absolute;
+  right:1rem;
+  top: 1rem;
 }
